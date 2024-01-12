@@ -2,8 +2,10 @@
 import "@styles/Register.scss";
 import { useEffect, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { Toaster, toast } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
+import Link from "next/link";
 
 const Register = () => {
   const router = useRouter();
@@ -34,7 +36,7 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    var loadingToast = toast.loading("Uploading....");
+    var loadingToast = toast.loading("Authorizing....");
 
     if (!passwordMatch) {
       toast.error("Password is incorrect");
@@ -52,16 +54,19 @@ const Register = () => {
         body: registerForm,
       });
 
+      toast.remove(loadingToast);
       if (response.ok) {
-        toast.remove(loadingToast);
         router.push("/login");
         toast.success("User registerred successfully!");
       }
     } catch (err) {
-      toast.remove(loadingToast);
       console.log("Registration failed", err.message);
       toast.error("Registration failed", err.message);
     }
+  };
+
+  const loginWithGoogle = () => {
+    signIn("google", { callbackUrl: "/" });
   };
 
   return (
@@ -134,15 +139,11 @@ const Register = () => {
             Register
           </button>
         </form>
-        <button
-          type="button"
-          // onClick={() => {}}
-          className="google"
-        >
+        <button type="button" onClick={loginWithGoogle} className="google">
           <p>Log In with Google</p>
           <FcGoogle />
         </button>
-        <a href="/login">Already have an account? Log In here</a>
+        <Link href="/login">Already have an account? Logn In Here</Link>
       </div>
     </div>
   );
