@@ -35,6 +35,9 @@ const Register = () => {
   };
 
   const handleSubmit = async (e) => {
+    if (!username || !email || !password || !confirmPassword || !profileImage) {
+      toast.error("Please fill all field");
+    }
     e.preventDefault();
     var loadingToast = toast.loading("Authorizing....");
 
@@ -120,7 +123,6 @@ const Register = () => {
             id="image"
             name="profileImage"
             accept="image/*"
-            required
             style={{ display: "none" }}
             onChange={handleChange}
           />

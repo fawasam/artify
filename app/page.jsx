@@ -1,11 +1,12 @@
-import React from "react";
-import { Toaster } from "react-hot-toast";
+import Feed from "@components/Feed";
+import Navbar from "@components/Navbar";
+
 const Home = () => {
   return (
-    <div>
-      <Toaster />
-      Home
-    </div>
+    <>
+      <Navbar />
+      <Feed />
+    </>
   );
 };
 
